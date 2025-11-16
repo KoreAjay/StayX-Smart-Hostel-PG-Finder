@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hostel & PG Needs Assessment – Demo App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-card: #111827;
+      --accent: #22c55e;
+      --accent-soft: rgba(34,197,94,0.15);
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --border: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    #app {
+      width: 100%;
+      max-width: 1100px;
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1.5rem 2rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      background: linear-gradient(135deg, #020617, #0b1120);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #4ade80, #16a34a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #022c22;
+      box-shadow: 0 0 25px rgba(74, 222, 128, 0.5);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      font-size: 1.05rem;
+    }
+
+    .brand-sub {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    nav {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-soft);
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.18s ease;
+    }
+
+    .nav-btn span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: transparent;
+    }
+
+    .nav-btn.active {
+      background: rgba(34, 197, 94, 0.08);
+      border-color: var(--accent-soft);
+      color: #bbf7d0;
+    }
+
+    .nav-btn.active span.dot {
+      background: var(--accent);
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.3rem 1.6rem 1.6rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.5fr);
+      gap: 1rem;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #111827, #020617);
+      border-radius: 1rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle at top right,
+        rgba(34, 197, 94, 0.12),
+        transparent 55%
+      );
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .card-sub {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      margin-top: 0.15rem;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      padding: 0.15rem 0.6rem;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-soft);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.7rem;
+      background: rgba(15, 23, 42, 0.9);
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      display: inline-flex;
+      gap: 0.3rem;
+      align-items: center;
+    }
+
+    .pill select,
+    .pill input {
+      background: transparent;
+      border: none;
+      color: inherit;
+      outline: none;
+      font-size: inherit;
+    }
+
+    .pill label {
+      opacity: 0.7;
+    }
+
+    .properties {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.4rem;
+      max-height: 290px;
+      overflow-y: auto;
+      padding-right: 0.2rem;
+    }
+
+    .prop-card {
+      border-radius: 0.9rem;
+      border: 1px solid var(--border);
+      padding: 0.7rem 0.75rem;
+      background: rgba(15, 23, 42, 0.9);
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .prop-card:hover {
+      border-color: rgba(34, 197, 94, 0.5);
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .prop-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .prop-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .prop-type {
+      font-size: 0.68rem;
+      padding: 0.08rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-soft);
+    }
+
+    .prop-meta {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      margin-bottom: 0.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem 0.8rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.25rem;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      padding: 0.1rem 0.45rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-soft);
+    }
+
+    .chip.hot {
+      border-color: rgba(34, 197, 94, 0.7);
+      color: #bbf7d0;
+      background: rgba(22, 163, 74, 0.15);
+    }
+
+    .btn-ghost {
+      font-size: 0.76rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 0.25rem 0.7rem;
+      background: transparent;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: #bbf7d0;
+      background: rgba(34, 197, 94, 0.06);
+    }
+
+    .metrics {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.3rem;
+    }
+
+    .metric {
+      border-radius: 0.9rem;
+      border: 1px solid var(--border);
+      padding: 0.55rem 0.6rem;
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--text-soft);
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .metric-pill {
+      font-size: 0.68rem;
+      margin-top: 0.15rem;
+      color: var(--text-soft);
+    }
+
+    .detail-body {
+      position: relative;
+      z-index: 1;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .detail-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 0.25rem 0.8rem;
+      margin-top: 0.25rem;
+    }
+
+    .detail-list li span.label {
+      opacity: 0.7;
+    }
+
+    .detail-list li span.value {
+      color: var(--text);
+    }
+
+    .feedback-form {
+      margin-top: 0.6rem;
+      border-radius: 0.8rem;
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      padding: 0.55rem;
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .feedback-form label {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .feedback-form select,
+    .feedback-form textarea {
+      width: 100%;
+      border-radius: 0.6rem;
+      border: 1px solid var(--border);
+      background: #020617;
+      color: var(--text);
+      padding: 0.35rem 0.45rem;
+      font-size: 0.78rem;
+      outline: none;
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .feedback-form select {
+      min-height: auto;
+    }
+
+    .feedback-form button {
+      margin-top: 0.45rem;
+      font-size: 0.78rem;
+      border-radius: 999px;
+      padding: 0.3rem 0.8rem;
+      border: none;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #022c22;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(22, 163, 74, 0.55);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .feedback-form button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(22, 163, 74, 0.7);
+    }
+
+    .feedback-note {
+      font-size: 0.7rem;
+      color: var(--text-soft);
+      margin-top: 0.25rem;
+    }
+
+    .toast {
+      position: fixed;
+      right: 1.8rem;
+      bottom: 1.8rem;
+      padding: 0.7rem 1rem;
+      border-radius: 999px;
+      background: #022c22;
+      color: #bbf7d0;
+      font-size: 0.8rem;
+      border: 1px solid rgba(34, 197, 94, 0.6);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: all 0.18s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    @media (max-width: 850px) {
+      main {
+        padding: 1.1rem;
+      }
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .card {
+        padding: 0.9rem;
+      }
+      header {
+        padding: 1.1rem 1.2rem 0.9rem;
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 0.7rem;
+      }
+
+      .properties {
+        max-height: 260px;
+      }
+
+      .brand-title {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="brand">
+        <div class="brand-logo">PG</div>
+        <div>
+          <div class="brand-title">Hostel & PG Insight</div>
+          <div class="brand-sub">
+            Needs assessment dashboard – students & working professionals
+          </div>
+        </div>
+      </div>
+      <nav>
+        <button class="nav-btn active" data-view="dashboard">
+          <span class="dot"></span> Dashboard
+        </button>
+        <button class="nav-btn" data-view="search">
+          <span class="dot"></span> Search & Filter
+        </button>
+        <button class="nav-btn" data-view="feedback">
+          <span class="dot"></span> Feedback Capture
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="view-dashboard" class="grid view">
+        <!-- LEFT: SUMMARY + LIST -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Accommodation Snapshot</div>
+              <div class="card-sub">
+                Explore sample hostel & PG options based on your research factors.
+              </div>
+            </div>
+            <span class="badge" id="summary-count"></span>
+          </div>
+
+          <div class="filters">
+            <div class="pill">
+              <label for="filter-type">Type</label>
+              <select id="filter-type">
+                <option value="all">All</option>
+                <option value="Hostel">Hostel</option>
+                <option value="PG">PG</option>
+                <option value="Co-Living">Co-Living</option>
+              </select>
+            </div>
+            <div class="pill">
+              <label for="filter-budget">Max Rent (₹)</label>
+              <input
+                type="number"
+                id="filter-budget"
+                placeholder="e.g. 9000"
+                min="0"
+              />
+            </div>
+            <div class="pill">
+              <label for="filter-location">Location</label>
+              <select id="filter-location">
+                <option value="all">All</option>
+                <option value="Near College">Near College</option>
+                <option value="IT Hub">IT Hub</option>
+                <option value="City Center">City Center</option>
+              </select>
+            </div>
+            <button class="btn-ghost" id="reset-filters">Reset</button>
+          </div>
+
+          <div class="properties" id="property-list"></div>
+        </div>
+
+        <!-- RIGHT: DETAIL + FEEDBACK -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title" id="detail-title">
+                Select an accommodation
+              </div>
+              <div class="card-sub" id="detail-sub">
+                Click on any card on the left to view detailed info and record
+                quick perception feedback (food, Wi-Fi, safety, hygiene, rent).
+              </div>
+            </div>
+            <span class="badge" id="detail-tag">No item selected</span>
+          </div>
+
+          <div class="detail-body" id="detail-body">
+            <p>
+              This panel reflects your <strong>research focus</strong> – it
+              summarises key evaluation dimensions:
+            </p>
+            <ul class="detail-list">
+              <li>
+                <span class="label">Core factors:</span>
+                <span class="value">
+                  Food quality, Wi-Fi, hygiene, rent, safety, study space,
+                  visitors.
+                </span>
+              </li>
+              <li>
+                <span class="label">Target group:</span>
+                <span class="value">
+                  Students & working professionals with different priorities.
+                </span>
+              </li>
+              <li>
+                <span class="label">Use case:</span>
+                <span class="value">
+                  Needs assessment + digital accommodation management concept.
+                </span>
+              </li>
+              <li>
+                <span class="label">How to use:</span>
+                <span class="value">
+                  Filter options, select a card, submit a quick feedback rating.
+                </span>
+              </li>
+            </ul>
+
+            <div class="metrics" id="metrics">
+              <div class="metric">
+                <div class="metric-label">Avg research score (demo)</div>
+                <div class="metric-value" id="metric-score">–</div>
+                <div class="metric-pill">
+                  Computed from food, Wi-Fi, safety & hygiene preferences.
+                </div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Feedback entries (this session)</div>
+                <div class="metric-value" id="metric-feedback-count">0</div>
+                <div class="metric-pill">
+                  Stored temporarily in memory (client-side only).
+                </div>
+              </div>
+            </div>
+
+            <div class="feedback-form">
+              <label for="rating-overall">
+                Quick feedback – overall suitability for students/working
+                professionals:
+              </label>
+              <select id="rating-overall">
+                <option value="">Select rating</option>
+                <option value="5">5 – Excellent</option>
+                <option value="4">4 – Very good</option>
+                <option value="3">3 – Average</option>
+                <option value="2">2 – Below average</option>
+                <option value="1">1 – Poor</option>
+              </select>
+
+              <label for="feedback-notes" style="margin-top: 0.5rem">
+                Short note (e.g. “Great Wi-Fi, food needs improvement”):
+              </label>
+              <textarea
+                id="feedback-notes"
+                placeholder="Type your notes here…"
+              ></textarea>
+
+              <button id="feedback-submit">Save feedback</button>
+              <div class="feedback-note">
+                Note: This is a <strong>front-end demo</strong>; data is stored
+                only in your browser memory to illustrate how the final web app
+                for your research could behave.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Placeholder extra views (SPA style) -->
+      <section id="view-search" class="view" style="display: none">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Search & Filter (Concept View)</div>
+              <div class="card-sub">
+                In a full implementation this view would integrate with a real
+                database / API of hostel & PG listings.
+              </div>
+            </div>
+            <span class="badge">Prototype</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-soft);">
+            You can mention this single-page prototype in your report / viva as
+            an <strong>“Application / Implementation (Web/App)”</strong>. It
+            demonstrates how the final solution could help users filter
+            accommodations by rent, type, and location, and then rate the
+            options based on your research factors such as food, Wi-Fi, safety,
+            hygiene, and study environment.
+          </p>
+        </div>
+      </section>
+
+      <section id="view-feedback" class="view" style="display: none">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Feedback Capture & Analytics (Concept)</div>
+              <div class="card-sub">
+                In a full system, all feedback entries would be aggregated,
+                analysed and visualised in heatmaps / dashboards.
+              </div>
+            </div>
+            <span class="badge">Research-oriented</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-soft); margin-bottom:0.6rem;">
+            For your current prototype, basic feedback is stored in memory and
+            used to update <em>“Feedback entries (this session)”</em>. In an
+            extended version you could:
+          </p>
+          <ul style="font-size:0.8rem; color:var(--text-soft); padding-left:1rem; list-style:disc;">
+            <li>Export anonymised feedback to Excel / CSV for further analysis.</li>
+            <li>Feed data into your heatmaps (Age, Gender, Occupation).</li>
+            <li>Compare satisfaction patterns between hostels vs PGs.</li>
+            <li>Generate automated recommendations for owners.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">Feedback saved for this accommodation.</div>
+
+  <script>
+    // --- Demo data representing hostels / PGs based on your research factors ---
+    const PROPERTIES = [
+      {
+        id: 1,
+        name: "GreenNest PG",
+        type: "PG",
+        location: "Near College",
+        rent: 7500,
+        food: "Veg / Non-veg, 3 meals",
+        wifi: "100 Mbps",
+        safety: "CCTV, warden, gated",
+        hygiene: "Daily cleaning",
+        studySpace: "Dedicated study hall",
+        visitors: "Restricted after 9 pm",
+        score: 4.4,
+        tags: ["Popular with students", "High Wi-Fi rating", "Good safety index"],
+      },
+      {
+        id: 2,
+        name: "MetroView Hostel",
+        type: "Hostel",
+        location: "City Center",
+        rent: 6000,
+        food: "Veg mess, fixed menu",
+        wifi: "50 Mbps",
+        safety: "Guard + CCTV",
+        hygiene: "Alternate day cleaning",
+        studySpace: "Library style floor",
+        visitors: "Common area only",
+        score: 3.9,
+        tags: ["Budget option", "Central location"],
+      },
+      {
+        id: 3,
+        name: "TechPark Co-Living",
+        type: "Co-Living",
+        location: "IT Hub",
+        rent: 11000,
+        food: "On-demand kitchen + tiffin tie-ups",
+        wifi: "200 Mbps",
+        safety: "Access card entry",
+        hygiene: "Professional housekeeping",
+        studySpace: "Work pods + lounge",
+        visitors: "Flexible, with registration",
+        score: 4.7,
+        tags: ["Ideal for working professionals", "Best Wi-Fi", "Premium"],
+      },
+      {
+        id: 4,
+        name: "Scholars Stay Hostel",
+        type: "Hostel",
+        location: "Near College",
+        rent: 6800,
+        food: "Mess (home style)",
+        wifi: "80 Mbps",
+        safety: "Warden, CCTV on floors",
+        hygiene: "Daily bathroom cleaning",
+        studySpace: "Quiet study wing",
+        visitors: "Parents / guardians only",
+        score: 4.2,
+        tags: ["Study focused", "Preferred by exam aspirants"],
+      },
+    ];
+
+    const state = {
+      activeView: "dashboard",
+      selectedId: null,
+      feedbackCount: 0,
+    };
+
+    const el = (id) => document.getElementById(id);
+
+    // --- Navigation between views ---
+    document.querySelectorAll(".nav-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const view = btn.dataset.view;
+        state.activeView = view;
+
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        document.querySelectorAll(".view").forEach((section) => {
+          section.style.display =
+            section.id === `view-${view}` ? "grid" : "none";
+          if (view !== "dashboard") {
+            section.style.display = "block";
+          }
+        });
+      });
+    });
+
+    // --- Render property cards ---
+    function renderProperties() {
+      const type = el("filter-type").value;
+      const maxBudget = parseInt(el("filter-budget").value, 10);
+      const location = el("filter-location").value;
+
+      const container = el("property-list");
+      container.innerHTML = "";
+
+      let filtered = PROPERTIES.filter((p) => {
+        if (type !== "all" && p.type !== type) return false;
+        if (!isNaN(maxBudget) && p.rent > maxBudget) return false;
+        if (location !== "all" && p.location !== location) return false;
+        return true;
+      });
+
+      if (!filtered.length) {
+        container.innerHTML =
+          '<div style="font-size:0.8rem; color:#9ca3af;">No accommodations match the current filters.</div>';
+      }
+
+      filtered.forEach((prop) => {
+        const card = document.createElement("div");
+        card.className = "prop-card";
+        card.dataset.id = prop.id;
+
+        card.innerHTML = `
+          <div class="prop-header">
+            <div class="prop-name">${prop.name}</div>
+            <div class="prop-type">${prop.type}</div>
+          </div>
+          <div class="prop-meta">
+            <span>📍 ${prop.location}</span>
+            <span>💰 ₹${prop.rent}/month</span>
+          </div>
+          <div class="prop-meta">
+            <span>🍽 ${prop.food}</span>
+          </div>
+          <div class="tag-row">
+            ${prop.tags
+              .map(
+                (t, i) =>
+                  `<span class="chip ${i === 0 ? "hot" : ""}">${t}</span>`
+              )
+              .join("")}
+          </div>
+        `;
+
+        card.addEventListener("click", () => selectProperty(prop.id));
+        container.appendChild(card);
+      });
+
+      el("summary-count").textContent = `${filtered.length} option(s) shown`;
+    }
+
+    // --- Select property + update detail panel ---
+    function selectProperty(id) {
+      const prop = PROPERTIES.find((p) => p.id === id);
+      if (!prop) return;
+      state.selectedId = id;
+
+      el("detail-title").textContent = prop.name;
+      el("detail-sub").textContent = `${prop.type} · ${prop.location} · ₹${prop.rent}/month`;
+      el("detail-tag").textContent = "Sample research profile";
+
+      el("detail-body").innerHTML = `
+        <p>Below is a demo view connecting your <strong>research factors</strong> with one accommodation option:</p>
+        <ul class="detail-list">
+          <li><span class="label">Food service:</span> <span class="value">${prop.food}</span></li>
+          <li><span class="label">Wi-Fi:</span> <span class="value">${prop.wifi}</span></li>
+          <li><span class="label">Safety:</span> <span class="value">${prop.safety}</span></li>
+          <li><span class="label">Hygiene:</span> <span class="value">${prop.hygiene}</span></li>
+          <li><span class="label">Study / work space:</span> <span class="value">${prop.studySpace}</span></li>
+          <li><span class="label">Visitor policy:</span> <span class="value">${prop.visitors}</span></li>
+        </ul>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="metric-label">Composite suitability score (demo)</div>
+            <div class="metric-value" id="metric-score">${prop.score.toFixed(
+              1
+            )}</div>
+            <div class="metric-pill">Weighted from research factors: food, Wi-Fi, hygiene, safety, rent.</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Feedback entries (this session)</div>
+            <div class="metric-value" id="metric-feedback-count">${
+              state.feedbackCount
+            }</div>
+            <div class="metric-pill">Client-side only, used to illustrate analytics idea.</div>
+          </div>
+        </div>
+
+        <div class="feedback-form" style="margin-top:0.6rem;">
+          <label for="rating-overall">Quick feedback for <strong>${
+            prop.name
+          }</strong>:</label>
+          <select id="rating-overall">
+            <option value="">Select rating</option>
+            <option value="5">5 – Excellent</option>
+            <option value="4">4 – Very good</option>
+            <option value="3">3 – Average</option>
+            <option value="2">2 – Below average</option>
+            <option value="1">1 – Poor</option>
+          </select>
+
+          <label for="feedback-notes" style="margin-top:0.5rem;">Short note (optional):</label>
+          <textarea id="feedback-notes" placeholder="E.g. Great Wi-Fi, food could improve…"></textarea>
+
+          <button id="feedback-submit">Save feedback</button>
+          <div class="feedback-note">
+            Feedback stays in this session only. In a real system it would be saved to a database and used to generate heatmaps like the ones in your research.
+          </div>
+        </div>
+      `;
+
+      // Re-bind feedback submit button for this panel
+      const btn = document.getElementById("feedback-submit");
+      if (btn) {
+        btn.addEventListener("click", handleFeedbackSubmit);
+      }
+    }
+
+    function handleFeedbackSubmit() {
+      const ratingEl = document.getElementById("rating-overall");
+      const notesEl = document.getElementById("feedback-notes");
+      const rating = ratingEl ? ratingEl.value : "";
+      if (!state.selectedId) {
+        showToast("Please select an accommodation first.");
+        return;
+      }
+      if (!rating) {
+        showToast("Please choose a rating before saving.");
+        return;
+      }
+      state.feedbackCount += 1;
+      const metricEl = document.getElementById("metric-feedback-count");
+      if (metricEl) metricEl.textContent = state.feedbackCount;
+
+      // reset fields (demo)
+      ratingEl.value = "";
+      if (notesEl) notesEl.value = "";
+
+      showToast("Feedback saved for this accommodation (demo).");
+    }
+
+    function showToast(msg) {
+      const t = el("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2100);
+    }
+
+    // Filter events
+    el("filter-type").addEventListener("change", renderProperties);
+    el("filter-budget").addEventListener("input", renderProperties);
+    el("filter-location").addEventListener("change", renderProperties);
+    el("reset-filters").addEventListener("click", () => {
+      el("filter-type").value = "all";
+      el("filter-budget").value = "";
+      el("filter-location").value = "all";
+      renderProperties();
+    });
+
+    // Init
+    renderProperties();
+  </script>
+</body>
+</html>
