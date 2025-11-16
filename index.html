@@ -2,57 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hostel & PG Needs Assessment – Demo App</title>
+  <title>StayX – Smart Hostel & PG Insights</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="StayX – A research-inspired smart web experience for exploring hostel & PG needs based on food, Wi-Fi, safety, hygiene, rent and more."
+  />
+  <!-- Google Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
   <style>
     :root {
-      --bg: #0f172a;
-      --bg-card: #111827;
+      --bg: #020617;
+      --bg-soft: #020617;
+      --bg-card: rgba(15, 23, 42, 0.9);
       --accent: #22c55e;
-      --accent-soft: rgba(34,197,94,0.15);
-      --text: #e5e7eb;
+      --accent-soft: rgba(34, 197, 94, 0.16);
+      --accent-strong: #4ade80;
+      --text: #f9fafb;
       --text-soft: #9ca3af;
-      --border: #1f2937;
+      --border: rgba(148, 163, 184, 0.3);
+      --danger: #f97373;
+      --shadow-strong: 0 30px 100px rgba(0, 0, 0, 0.9);
+      --radius-xl: 1.5rem;
+      --radius-lg: 1rem;
+      --glass: rgba(15, 23, 42, 0.82);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
     }
 
     body {
-      background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
+      background:
+        radial-gradient(circle at top, #0f172a 0, #020617 40%, #000 100%);
       color: var(--text);
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 1.5rem;
     }
 
-    #app {
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    #page {
       width: 100%;
-      max-width: 1100px;
-      background: rgba(15, 23, 42, 0.98);
-      border-radius: 1rem;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      max-width: 1200px;
+      padding: 1.25rem 1.25rem 2rem;
     }
 
     header {
-      padding: 1.5rem 2rem 1rem;
-      border-bottom: 1px solid var(--border);
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
-      gap: 1rem;
       align-items: center;
-      background: linear-gradient(135deg, #020617, #0b1120);
+      gap: 1.5rem;
+      margin-bottom: 1.8rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(
+        to bottom,
+        rgba(15, 23, 42, 0.96),
+        rgba(15, 23, 42, 0.44),
+        transparent
+      );
+      padding-bottom: 0.4rem;
     }
 
     .brand {
@@ -62,85 +85,448 @@
     }
 
     .brand-logo {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #4ade80, #16a34a);
+      background:
+        conic-gradient(
+          from 220deg,
+          #4ade80,
+          #22c55e,
+          #16a34a,
+          #22c55e,
+          #4ade80
+        );
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 1.1rem;
-      color: #022c22;
-      box-shadow: 0 0 25px rgba(74, 222, 128, 0.5);
+      font-size: 1.05rem;
+      color: #052e16;
+      box-shadow: 0 0 40px rgba(74, 222, 128, 0.7);
     }
 
-    .brand-title {
+    .brand-name {
       font-weight: 700;
-      letter-spacing: 0.04em;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .brand-sub {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-soft);
     }
 
     nav {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.35rem;
       flex-wrap: wrap;
     }
 
-    .nav-btn {
+    .nav-link {
+      padding: 0.35rem 0.8rem;
       border-radius: 999px;
-      padding: 0.45rem 0.9rem;
+      font-size: 0.8rem;
+      color: var(--text-soft);
       border: 1px solid transparent;
       background: transparent;
-      color: var(--text-soft);
       cursor: pointer;
-      font-size: 0.85rem;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.3rem;
       transition: all 0.18s ease;
     }
 
-    .nav-btn span.dot {
-      width: 7px;
-      height: 7px;
+    .nav-link span.dot {
+      width: 6px;
+      height: 6px;
       border-radius: 999px;
       background: transparent;
+      transition: all 0.18s ease;
     }
 
-    .nav-btn.active {
-      background: rgba(34, 197, 94, 0.08);
-      border-color: var(--accent-soft);
+    .nav-link:hover {
+      color: #e5e7eb;
+    }
+
+    .nav-link.active {
+      background: radial-gradient(circle at top left, #16a34a40, transparent);
+      border-color: rgba(34, 197, 94, 0.4);
       color: #bbf7d0;
     }
 
-    .nav-btn.active span.dot {
+    .nav-link.active span.dot {
       background: var(--accent);
     }
 
+    /* Layout sections */
     main {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      padding: 1.3rem 1.6rem 1.6rem;
+      gap: 1.6rem;
     }
 
-    .grid {
+    section {
+      scroll-margin-top: 5rem;
+    }
+
+    /* Hero section */
+    .hero {
       display: grid;
-      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.5fr);
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-text {
+      padding: 1rem 1.1rem 1rem 0.3rem;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.6rem;
+      color: #a5b4fc;
+    }
+
+    .hero-kicker span.pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 3vw, 2.6rem);
+      line-height: 1.15;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(120deg, #4ade80, #22c55e, #a5b4fc);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      max-width: 32rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+      margin-bottom: 0.9rem;
+    }
+
+    .btn-primary {
+      border-radius: 999px;
+      border: none;
+      padding: 0.55rem 1.1rem;
+      font-size: 0.86rem;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #022c22;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      gap: 0.4rem;
+      align-items: center;
+      box-shadow: 0 18px 45px rgba(22, 163, 74, 0.7);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 24px 70px rgba(22, 163, 74, 0.9);
+    }
+
+    .btn-secondary {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 0.5rem 0.9rem;
+      font-size: 0.82rem;
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--text-soft);
+      cursor: pointer;
+      display: inline-flex;
+      gap: 0.4rem;
+      align-items: center;
+      transition: all 0.16s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: #bbf7d0;
+      background: rgba(22, 163, 74, 0.12);
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .hero-meta span strong {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    /* Hero card (demo panel) */
+    .hero-panel-wrap {
+      position: relative;
+    }
+
+    .hero-orb {
+      position: absolute;
+      inset: -40px -80px auto auto;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(74, 222, 128, 0.5), transparent),
+        radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.4), transparent);
+      opacity: 0.8;
+      filter: blur(5px);
+      z-index: -1;
+    }
+
+    .hero-panel {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top left, #020617, #020617cc);
+      box-shadow: var(--shadow-strong);
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: -25%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(74, 222, 128, 0.25), transparent 50%),
+        radial-gradient(circle at 100% 120%, rgba(59, 130, 246, 0.25), transparent 45%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-panel-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-panel-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .hero-panel-tag {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      padding: 0.15rem 0.6rem;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-soft);
+    }
+
+    .hero-panel-body {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+    }
+
+    .hero-panel-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .mini-list {
+      border-radius: 0.9rem;
+      padding: 0.5rem;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .mini-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.35rem;
+      font-size: 0.76rem;
+    }
+
+    .mini-item span.label {
+      color: #e5e7eb;
+    }
+
+    .mini-item span.value {
+      color: #a5b4fc;
+    }
+
+    .mini-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.3rem;
+    }
+
+    .mini-chip {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      padding: 0.1rem 0.45rem;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text-soft);
+    }
+
+    .mini-chip.hot {
+      border-color: rgba(34, 197, 94, 0.75);
+      background: rgba(22, 163, 74, 0.20);
+      color: #bbf7d0;
+    }
+
+    .mini-pill-list {
+      margin-top: 0.4rem;
+      font-size: 0.74rem;
+    }
+
+    .mini-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      padding: 0.12rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      margin: 0.1rem;
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-soft);
+    }
+
+    .mini-pill-bullet {
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    /* Features / pillars */
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-sub {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      margin-bottom: 0.7rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.7rem;
+    }
+
+    .feature-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--glass);
+      padding: 0.7rem 0.75rem;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.16s ease, box-shadow 0.16s ease,
+        border-color 0.16s ease;
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle at top,
+        rgba(34, 197, 94, 0.22),
+        transparent 60%
+      );
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      pointer-events: none;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34, 197, 94, 0.6);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+      background: rgba(34, 197, 94, 0.13);
+      color: var(--accent-strong);
+    }
+
+    .feature-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .feature-text {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    /* Demo app section */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.2fr);
       gap: 1rem;
     }
 
     .card {
-      background: radial-gradient(circle at top left, #111827, #020617);
-      border-radius: 1rem;
-      padding: 1rem 1.1rem;
+      border-radius: var(--radius-lg);
       border: 1px solid var(--border);
+      background: linear-gradient(135deg, #020617f0, #020617d0);
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.9);
+      padding: 0.9rem;
       position: relative;
       overflow: hidden;
     }
@@ -148,111 +534,117 @@
     .card::before {
       content: "";
       position: absolute;
-      inset: 0;
-      background: radial-gradient(
-        circle at top right,
-        rgba(34, 197, 94, 0.12),
-        transparent 55%
-      );
-      opacity: 0.6;
+      inset: -30%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(34, 197, 94, 0.16), transparent 60%),
+        radial-gradient(circle at 100% 110%, rgba(37, 99, 235, 0.20), transparent 55%);
+      opacity: 0.8;
       pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
     }
 
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.75rem;
-      position: relative;
-      z-index: 1;
+      margin-bottom: 0.4rem;
     }
 
-    .card-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .card-sub {
-      font-size: 0.8rem;
-      color: var(--text-soft);
-      margin-top: 0.15rem;
-    }
-
-    .badge {
+    .card-tag {
       font-size: 0.7rem;
       border-radius: 999px;
       padding: 0.15rem 0.6rem;
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.6);
       color: var(--text-soft);
     }
 
     .filters {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-bottom: 0.75rem;
-      position: relative;
-      z-index: 1;
+      gap: 0.55rem;
+      margin-top: 0.3rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.78rem;
     }
 
     .pill {
       border-radius: 999px;
-      border: 1px solid var(--border);
-      padding: 0.35rem 0.7rem;
-      background: rgba(15, 23, 42, 0.9);
-      font-size: 0.78rem;
+      padding: 0.28rem 0.6rem;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.85);
       color: var(--text-soft);
       display: inline-flex;
-      gap: 0.3rem;
+      gap: 0.25rem;
       align-items: center;
-    }
-
-    .pill select,
-    .pill input {
-      background: transparent;
-      border: none;
-      color: inherit;
-      outline: none;
-      font-size: inherit;
     }
 
     .pill label {
       opacity: 0.7;
     }
 
+    .pill select,
+    .pill input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: inherit;
+      font-size: inherit;
+      min-width: 50px;
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 0.28rem 0.75rem;
+      font-size: 0.76rem;
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: #bbf7d0;
+      background: rgba(22, 163, 74, 0.1);
+    }
+
     .properties {
-      position: relative;
-      z-index: 1;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 0.6rem;
-      margin-top: 0.4rem;
-      max-height: 290px;
+      max-height: 260px;
       overflow-y: auto;
-      padding-right: 0.2rem;
+      padding-right: 0.25rem;
+      margin-top: 0.3rem;
     }
 
     .prop-card {
       border-radius: 0.9rem;
-      border: 1px solid var(--border);
-      padding: 0.7rem 0.75rem;
-      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.92);
+      padding: 0.6rem 0.7rem;
+      font-size: 0.78rem;
       cursor: pointer;
-      transition: all 0.18s ease;
+      transition: all 0.16s ease;
     }
 
     .prop-card:hover {
-      border-color: rgba(34, 197, 94, 0.5);
-      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.25);
-      transform: translateY(-1px);
+      border-color: rgba(34, 197, 94, 0.75);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
+      transform: translateY(-2px);
     }
 
     .prop-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
     }
 
     .prop-name {
@@ -262,194 +654,277 @@
 
     .prop-type {
       font-size: 0.68rem;
-      padding: 0.08rem 0.5rem;
+      padding: 0.1rem 0.5rem;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 1);
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       color: var(--text-soft);
     }
 
     .prop-meta {
-      font-size: 0.75rem;
-      color: var(--text-soft);
-      margin-bottom: 0.35rem;
       display: flex;
       flex-wrap: wrap;
-      gap: 0.3rem 0.8rem;
+      gap: 0.35rem 0.8rem;
+      font-size: 0.74rem;
+      color: var(--text-soft);
+      margin-bottom: 0.3rem;
     }
 
-    .tag-row {
+    .prop-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.3rem;
-      margin-top: 0.25rem;
+      margin-top: 0.15rem;
     }
 
     .chip {
       font-size: 0.7rem;
-      border-radius: 999px;
       padding: 0.1rem 0.45rem;
-      border: 1px solid rgba(148, 163, 184, 0.4);
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
       color: var(--text-soft);
     }
 
     .chip.hot {
-      border-color: rgba(34, 197, 94, 0.7);
+      border-color: rgba(34, 197, 94, 0.8);
       color: #bbf7d0;
       background: rgba(22, 163, 74, 0.15);
     }
 
-    .btn-ghost {
-      font-size: 0.76rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      padding: 0.25rem 0.7rem;
-      background: transparent;
-      color: var(--text-soft);
-      cursor: pointer;
-      transition: all 0.18s ease;
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--accent);
-      color: #bbf7d0;
-      background: rgba(34, 197, 94, 0.06);
-    }
-
-    .metrics {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.6rem;
-      margin-top: 0.3rem;
-    }
-
-    .metric {
-      border-radius: 0.9rem;
-      border: 1px solid var(--border);
-      padding: 0.55rem 0.6rem;
-      background: rgba(15, 23, 42, 0.95);
-    }
-
-    .metric-label {
-      font-size: 0.7rem;
-      color: var(--text-soft);
-      margin-bottom: 0.25rem;
-    }
-
-    .metric-value {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .metric-pill {
-      font-size: 0.68rem;
-      margin-top: 0.15rem;
-      color: var(--text-soft);
-    }
-
     .detail-body {
-      position: relative;
-      z-index: 1;
       font-size: 0.8rem;
       color: var(--text-soft);
+      margin-top: 0.2rem;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.45rem;
     }
 
     .detail-list {
       list-style: none;
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-      gap: 0.25rem 0.8rem;
-      margin-top: 0.25rem;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+      gap: 0.25rem 0.85rem;
     }
 
     .detail-list li span.label {
-      opacity: 0.7;
+      opacity: 0.72;
     }
 
     .detail-list li span.value {
       color: var(--text);
     }
 
-    .feedback-form {
-      margin-top: 0.6rem;
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.3rem;
+    }
+
+    .metric {
       border-radius: 0.8rem;
-      border: 1px dashed rgba(148, 163, 184, 0.5);
-      padding: 0.55rem;
-      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.92);
+      padding: 0.45rem 0.5rem;
+      font-size: 0.76rem;
+    }
+
+    .metric-label {
+      color: var(--text-soft);
+      margin-bottom: 0.2rem;
+    }
+
+    .metric-value {
+      font-size: 0.94rem;
+      font-weight: 600;
+    }
+
+    .metric-note {
+      font-size: 0.72rem;
+      color: var(--text-soft);
+      margin-top: 0.05rem;
+    }
+
+    .feedback-form {
+      margin-top: 0.45rem;
+      border-radius: 0.8rem;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 0.5rem;
+      font-size: 0.76rem;
     }
 
     .feedback-form label {
-      font-size: 0.75rem;
-      color: var(--text-soft);
       display: block;
-      margin-bottom: 0.15rem;
+      color: var(--text-soft);
+      margin-bottom: 0.2rem;
     }
 
     .feedback-form select,
     .feedback-form textarea {
       width: 100%;
       border-radius: 0.6rem;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(148, 163, 184, 0.6);
       background: #020617;
       color: var(--text);
-      padding: 0.35rem 0.45rem;
-      font-size: 0.78rem;
+      padding: 0.3rem 0.45rem;
+      font-size: 0.76rem;
       outline: none;
       resize: vertical;
+    }
+
+    .feedback-form textarea {
       min-height: 60px;
     }
 
-    .feedback-form select {
-      min-height: auto;
-    }
-
     .feedback-form button {
-      margin-top: 0.45rem;
-      font-size: 0.78rem;
+      margin-top: 0.4rem;
       border-radius: 999px;
-      padding: 0.3rem 0.8rem;
       border: none;
+      padding: 0.32rem 0.9rem;
       background: linear-gradient(135deg, #22c55e, #16a34a);
       color: #022c22;
       font-weight: 600;
+      font-size: 0.76rem;
       cursor: pointer;
-      box-shadow: 0 8px 25px rgba(22, 163, 74, 0.55);
+      box-shadow: 0 14px 30px rgba(22, 163, 74, 0.7);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     .feedback-form button:hover {
       transform: translateY(-1px);
-      box-shadow: 0 10px 30px rgba(22, 163, 74, 0.7);
+      box-shadow: 0 20px 40px rgba(22, 163, 74, 0.9);
     }
 
     .feedback-note {
+      margin-top: 0.2rem;
       font-size: 0.7rem;
       color: var(--text-soft);
-      margin-top: 0.25rem;
+    }
+
+    /* Research section */
+    .research-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.95);
+      padding: 0.9rem;
+      font-size: 0.8rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+
+    .research-list {
+      margin-top: 0.4rem;
+      padding-left: 1rem;
+      color: var(--text-soft);
+      font-size: 0.78rem;
+    }
+
+    .research-list li {
+      margin-bottom: 0.2rem;
+    }
+
+    .badge-soft {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.92);
+      color: var(--text-soft);
+    }
+
+    .badge-soft span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .heatmap-preview {
+      border-radius: 0.9rem;
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      padding: 0.6rem;
+      font-size: 0.76rem;
+      color: var(--text-soft);
+    }
+
+    .heatmap-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.25rem;
+      margin-top: 0.35rem;
+    }
+
+    .heatmap-chip {
+      border-radius: 0.65rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 0.18rem 0.3rem;
+      text-align: center;
+      font-size: 0.7rem;
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .heatmap-chip.hot {
+      background: radial-gradient(circle at top, #22c55e3b, #020617);
+      border-color: rgba(34, 197, 94, 0.8);
+      color: #bbf7d0;
+    }
+
+    /* Footer / contact */
+    footer {
+      margin-top: 1.8rem;
+      font-size: 0.76rem;
+      color: var(--text-soft);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      border-top: 1px solid rgba(31, 41, 55, 0.9);
+      padding-top: 0.7rem;
+    }
+
+    footer .links {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    footer a {
+      color: var(--text-soft);
+      text-decoration: none;
+      border-bottom: 1px dashed transparent;
+      transition: border-color 0.16s ease, color 0.16s ease;
+    }
+
+    footer a:hover {
+      color: #e5e7eb;
+      border-color: rgba(148, 163, 184, 0.7);
     }
 
     .toast {
       position: fixed;
-      right: 1.8rem;
-      bottom: 1.8rem;
-      padding: 0.7rem 1rem;
+      right: 1.6rem;
+      bottom: 1.6rem;
       border-radius: 999px;
+      padding: 0.6rem 0.9rem;
       background: #022c22;
       color: #bbf7d0;
-      font-size: 0.8rem;
-      border: 1px solid rgba(34, 197, 94, 0.6);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8);
+      font-size: 0.78rem;
+      border: 1px solid rgba(34, 197, 94, 0.7);
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.9);
       opacity: 0;
       transform: translateY(10px);
       pointer-events: none;
-      transition: all 0.18s ease;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 80;
     }
 
     .toast.show {
@@ -458,263 +933,522 @@
       pointer-events: auto;
     }
 
-    @media (max-width: 850px) {
-      main {
-        padding: 1.1rem;
+    /* Responsive */
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: minmax(0, 1.1fr);
       }
-      .grid {
-        grid-template-columns: minmax(0, 1fr);
+      .hero-panel-wrap {
+        order: -1;
       }
-      .card {
-        padding: 0.9rem;
-      }
-      header {
-        padding: 1.1rem 1.2rem 0.9rem;
+      .hero-text {
+        padding-right: 0;
       }
     }
 
-    @media (max-width: 520px) {
-      body {
-        padding: 0.7rem;
+    @media (max-width: 880px) {
+      .demo-grid {
+        grid-template-columns: minmax(0, 1fr);
       }
-
-      .properties {
-        max-height: 260px;
+      .research-card {
+        grid-template-columns: minmax(0, 1fr);
       }
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
 
-      .brand-title {
-        font-size: 0.95rem;
+    @media (max-width: 640px) {
+      #page {
+        padding: 1rem 0.8rem 1.6rem;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero {
+        gap: 1rem;
+      }
+      .feature-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .card {
+        padding: 0.8rem;
       }
     }
   </style>
 </head>
 <body>
-  <div id="app">
+  <div id="page">
     <header>
       <div class="brand">
-        <div class="brand-logo">PG</div>
+        <div class="brand-logo">SX</div>
         <div>
-          <div class="brand-title">Hostel & PG Insight</div>
+          <div class="brand-name">StayX</div>
           <div class="brand-sub">
-            Needs assessment dashboard – students & working professionals
+            Smart hostel & PG needs assessment · research-inspired prototype
           </div>
         </div>
       </div>
       <nav>
-        <button class="nav-btn active" data-view="dashboard">
-          <span class="dot"></span> Dashboard
+        <button class="nav-link active" data-target="hero">
+          <span class="dot"></span> Overview
         </button>
-        <button class="nav-btn" data-view="search">
-          <span class="dot"></span> Search & Filter
+        <button class="nav-link" data-target="features">
+          <span class="dot"></span> Pillars
         </button>
-        <button class="nav-btn" data-view="feedback">
-          <span class="dot"></span> Feedback Capture
+        <button class="nav-link" data-target="demo">
+          <span class="dot"></span> Demo App
+        </button>
+        <button class="nav-link" data-target="research">
+          <span class="dot"></span> Research Link
         </button>
       </nav>
     </header>
 
     <main>
-      <section id="view-dashboard" class="grid view">
-        <!-- LEFT: SUMMARY + LIST -->
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Accommodation Snapshot</div>
-              <div class="card-sub">
-                Explore sample hostel & PG options based on your research factors.
-              </div>
-            </div>
-            <span class="badge" id="summary-count"></span>
+      <!-- HERO -->
+      <section id="hero" class="hero">
+        <div class="hero-text">
+          <div class="hero-kicker">
+            <span class="pill-dot"></span> Prototype · Based on real research
+          </div>
+          <h1 class="hero-title">
+            Understand how <span>students & professionals</span> really choose
+            hostels & PGs.
+          </h1>
+          <p class="hero-sub">
+            StayX is a premium, research-driven single-page experience that
+            models how residents evaluate food, Wi-Fi, safety, hygiene, rent,
+            study space and more—using insights from your needs assessment
+            study.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn-primary" data-scroll="demo">
+              Open interactive demo
+              <span>↗</span>
+            </button>
+            <button class="btn-secondary" data-scroll="research">
+              View research context
+            </button>
           </div>
 
-          <div class="filters">
-            <div class="pill">
-              <label for="filter-type">Type</label>
-              <select id="filter-type">
-                <option value="all">All</option>
-                <option value="Hostel">Hostel</option>
-                <option value="PG">PG</option>
-                <option value="Co-Living">Co-Living</option>
-              </select>
-            </div>
-            <div class="pill">
-              <label for="filter-budget">Max Rent (₹)</label>
-              <input
-                type="number"
-                id="filter-budget"
-                placeholder="e.g. 9000"
-                min="0"
-              />
-            </div>
-            <div class="pill">
-              <label for="filter-location">Location</label>
-              <select id="filter-location">
-                <option value="all">All</option>
-                <option value="Near College">Near College</option>
-                <option value="IT Hub">IT Hub</option>
-                <option value="City Center">City Center</option>
-              </select>
-            </div>
-            <button class="btn-ghost" id="reset-filters">Reset</button>
+          <div class="hero-meta">
+            <span><strong>11+</strong> decision factors visualised</span>
+            <span><strong>3 cohorts</strong> · Age, gender, occupation</span>
+            <span><strong>Heatmap-ready</strong> data modelling</span>
           </div>
-
-          <div class="properties" id="property-list"></div>
         </div>
 
-        <!-- RIGHT: DETAIL + FEEDBACK -->
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title" id="detail-title">
-                Select an accommodation
+        <div class="hero-panel-wrap">
+          <div class="hero-orb"></div>
+          <div class="hero-panel">
+            <div class="hero-panel-inner">
+              <div class="hero-panel-head">
+                <div>
+                  <div class="hero-panel-title">
+                    Core decision matrix · Sample view
+                  </div>
+                  <div class="hero-panel-body">
+                    A compact look at your key evaluation areas: food, Wi-Fi,
+                    hygiene, safety, rent & study environment.
+                  </div>
+                </div>
+                <span class="hero-panel-tag">Based on survey logic</span>
               </div>
-              <div class="card-sub" id="detail-sub">
-                Click on any card on the left to view detailed info and record
-                quick perception feedback (food, Wi-Fi, safety, hygiene, rent).
+
+              <div class="hero-panel-grid">
+                <div class="mini-list">
+                  <div class="mini-item">
+                    <span class="label">Food service</span>
+                    <span class="value">Critical</span>
+                  </div>
+                  <div class="mini-item">
+                    <span class="label">Wi-Fi quality</span>
+                    <span class="value">High impact</span>
+                  </div>
+                  <div class="mini-item">
+                    <span class="label">Hygiene & cleaning</span>
+                    <span class="value">High impact</span>
+                  </div>
+                  <div class="mini-item">
+                    <span class="label">Safety / CCTV</span>
+                    <span class="value">Very high</span>
+                  </div>
+                  <div class="mini-item">
+                    <span class="label">Rent affordability</span>
+                    <span class="value">Medium–High</span>
+                  </div>
+                  <div class="mini-item">
+                    <span class="label">Study / work space</span>
+                    <span class="value">Essential</span>
+                  </div>
+
+                  <div class="mini-chips">
+                    <span class="mini-chip hot">Age 20–25 · dominant group</span>
+                    <span class="mini-chip">Students · high food sensitivity</span>
+                    <span class="mini-chip">Professionals · privacy & Wi-Fi</span>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="mini-pill-list">
+                    <div class="mini-pill">
+                      <span class="mini-pill-bullet"></span> Age-wise heatmaps
+                      reveal highest concern for food, safety & Wi-Fi.
+                    </div>
+                    <div class="mini-pill">
+                      <span class="mini-pill-bullet"></span> Gender & occupation
+                      create distinct satisfaction patterns.
+                    </div>
+                    <div class="mini-pill">
+                      <span class="mini-pill-bullet"></span> This prototype
+                      shows how such findings could power a real digital product.
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <span class="badge" id="detail-tag">No item selected</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES / PILLARS -->
+      <section id="features">
+        <h2 class="section-title">Core pillars of StayX</h2>
+        <p class="section-sub">
+          The interface is built directly around your research dimensions: what
+          really matters to residents when they select and rate hostels or PG
+          accommodations.
+        </p>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <div class="feature-title">Research-aligned design</div>
+            <div class="feature-text">
+              Mirrors your survey factors—food, Wi-Fi, hygiene, safety, rent,
+              study space, gym, visitors and location—in an interactive, visual
+              form residents and owners can both understand.
+            </div>
           </div>
 
-          <div class="detail-body" id="detail-body">
-            <p>
-              This panel reflects your <strong>research focus</strong> – it
-              summarises key evaluation dimensions:
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <div class="feature-title">Age, gender & occupation focus</div>
+            <div class="feature-text">
+              Insight cards and demo interactions reflect your heatmap studies
+              across age groups, gender and occupation, making the prototype
+              feel directly linked to your empirical findings.
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">⚙️</div>
+            <div class="feature-title">Digital management concept</div>
+            <div class="feature-text">
+              The UI hints at how a full-scale hostel / PG management system
+              could support bookings, ratings, complaint redressal, and rent
+              tracking based on your proposed model.
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">✨</div>
+            <div class="feature-title">Premium, presentation-ready UI</div>
+            <div class="feature-text">
+              Gradient glass surfaces, modern layout and smooth micro-interactions
+              give your project a polished, product-like feel suitable for viva,
+              portfolio and GitHub.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DEMO APP -->
+      <section id="demo">
+        <h2 class="section-title">Interactive demo · Needs-based accommodation view</h2>
+        <p class="section-sub">
+          This is a front-end prototype that models how users might filter and
+          evaluate hostels / PGs using the factors identified in your research.
+        </p>
+
+        <div class="demo-grid">
+          <!-- LEFT: FILTER + LIST -->
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-header">
+                <div>
+                  <div class="card-title" style="font-size:0.9rem;font-weight:600;">
+                    Explore sample accommodations
+                  </div>
+                  <div style="font-size:0.78rem;color:var(--text-soft);">
+                    Filter by type, budget and location and see how each option
+                    performs on your core decision factors.
+                  </div>
+                </div>
+                <span class="card-tag" id="summary-count">0 options</span>
+              </div>
+
+              <div class="filters">
+                <div class="pill">
+                  <label for="filter-type">Type</label>
+                  <select id="filter-type">
+                    <option value="all">All</option>
+                    <option value="Hostel">Hostel</option>
+                    <option value="PG">PG</option>
+                    <option value="Co-Living">Co-Living</option>
+                  </select>
+                </div>
+                <div class="pill">
+                  <label for="filter-budget">Max Rent</label>
+                  <input
+                    type="number"
+                    id="filter-budget"
+                    placeholder="₹9000"
+                    min="0"
+                  />
+                </div>
+                <div class="pill">
+                  <label for="filter-location">Location</label>
+                  <select id="filter-location">
+                    <option value="all">All</option>
+                    <option value="Near College">Near college</option>
+                    <option value="IT Hub">IT hub</option>
+                    <option value="City Center">City center</option>
+                  </select>
+                </div>
+                <button class="btn-ghost" id="reset-filters">Reset</button>
+              </div>
+
+              <div class="properties" id="property-list"></div>
+            </div>
+          </div>
+
+          <!-- RIGHT: DETAIL + FEEDBACK -->
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-header">
+                <div>
+                  <div class="card-title" id="detail-title" style="font-size:0.9rem;font-weight:600;">
+                    Select an option to view details
+                  </div>
+                  <div
+                    id="detail-sub"
+                    style="font-size:0.78rem;color:var(--text-soft);"
+                  >
+                    Click on any card from the left to see how it aligns with
+                    your research factors and record a quick perception rating.
+                  </div>
+                </div>
+                <span class="card-tag" id="detail-tag">No selection</span>
+              </div>
+
+              <div class="detail-body" id="detail-body">
+                <p>
+                  This panel links your <strong>research model</strong> to a
+                  possible product experience: each accommodation is evaluated
+                  based on food, Wi-Fi, hygiene, safety, rent and study
+                  environment.
+                </p>
+
+                <ul class="detail-list">
+                  <li>
+                    <span class="label">For students:</span>
+                    <span class="value">
+                      Priority on food quality, study space, affordability and
+                      Wi-Fi.
+                    </span>
+                  </li>
+                  <li>
+                    <span class="label">For professionals:</span>
+                    <span class="value">
+                      Priority on privacy, high-speed internet, safety and
+                      peaceful workspace.
+                    </span>
+                  </li>
+                  <li>
+                    <span class="label">Research alignment:</span>
+                    <span class="value">
+                      Mirrors your heatmaps and factor ratings for age, gender
+                      and occupation.
+                    </span>
+                  </li>
+                  <li>
+                    <span class="label">Usage in report:</span>
+                    <span class="value">
+                      Can be shown as an “Application / Implementation (Web)”
+                      reference in Chapter 7.
+                    </span>
+                  </li>
+                </ul>
+
+                <div class="metrics">
+                  <div class="metric">
+                    <div class="metric-label">
+                      Composite suitability score (demo)
+                    </div>
+                    <div class="metric-value" id="metric-score">–</div>
+                    <div class="metric-note">
+                      Weighted from: food, Wi-Fi, safety, hygiene & value for
+                      money.
+                    </div>
+                  </div>
+                  <div class="metric">
+                    <div class="metric-label">
+                      Feedback entries (this session)
+                    </div>
+                    <div class="metric-value" id="metric-feedback-count">0</div>
+                    <div class="metric-note">
+                      Prototype only – stored in browser memory to illustrate an
+                      analytics concept.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="feedback-form" id="feedback-form-static">
+                  <label>Quick feedback (demo mode):</label>
+                  <p style="font-size:0.74rem;color:var(--text-soft);">
+                    Once you select an accommodation, you’ll be able to rate it
+                    and leave a short note. In a real system this would
+                    contribute to dashboards, heatmaps and improvement reports
+                    for owners.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESEARCH SECTION -->
+      <section id="research">
+        <h2 class="section-title">How this page connects to your project</h2>
+        <p class="section-sub">
+          StayX is not just a “nice UI” — it has been structured as a live
+          representation of your Chapters 1, 5, 6 and 7: introduction, findings,
+          limitations and application / implementation.
+        </p>
+
+        <div class="research-card">
+          <div>
+            <span class="badge-soft" style="margin-bottom:0.4rem;">
+              <span class="dot"></span> Research summary
+            </span>
+            <p style="color:var(--text-soft);font-size:0.8rem;">
+              Your study, “Needs Assessment of Hostels and PG Accommodations
+              Among Students and Working Professionals”, explored how residents
+              feel about food, hygiene, safety, rent, visitors, Wi-Fi and more.
+              This UI compresses that logic into an app-like demonstration.
             </p>
-            <ul class="detail-list">
+            <ul class="research-list">
               <li>
-                <span class="label">Core factors:</span>
-                <span class="value">
-                  Food quality, Wi-Fi, hygiene, rent, safety, study space,
-                  visitors.
-                </span>
+                Age 20–25 years emerges as the dominant accommodation-using
+                cohort.
               </li>
               <li>
-                <span class="label">Target group:</span>
-                <span class="value">
-                  Students & working professionals with different priorities.
-                </span>
+                Food quality, safety, hygiene and Wi-Fi are consistently rated
+                as “high” or “very high” impact factors.
               </li>
               <li>
-                <span class="label">Use case:</span>
-                <span class="value">
-                  Needs assessment + digital accommodation management concept.
-                </span>
+                Working professionals show elevated emphasis on privacy,
+                internet quality and flexible policies.
               </li>
               <li>
-                <span class="label">How to use:</span>
-                <span class="value">
-                  Filter options, select a card, submit a quick feedback rating.
-                </span>
+                The demo app suggests how these findings could evolve into a
+                deployable hostel/PG management system.
               </li>
             </ul>
-
-            <div class="metrics" id="metrics">
-              <div class="metric">
-                <div class="metric-label">Avg research score (demo)</div>
-                <div class="metric-value" id="metric-score">–</div>
-                <div class="metric-pill">
-                  Computed from food, Wi-Fi, safety & hygiene preferences.
-                </div>
-              </div>
-              <div class="metric">
-                <div class="metric-label">Feedback entries (this session)</div>
-                <div class="metric-value" id="metric-feedback-count">0</div>
-                <div class="metric-pill">
-                  Stored temporarily in memory (client-side only).
-                </div>
-              </div>
-            </div>
-
-            <div class="feedback-form">
-              <label for="rating-overall">
-                Quick feedback – overall suitability for students/working
-                professionals:
-              </label>
-              <select id="rating-overall">
-                <option value="">Select rating</option>
-                <option value="5">5 – Excellent</option>
-                <option value="4">4 – Very good</option>
-                <option value="3">3 – Average</option>
-                <option value="2">2 – Below average</option>
-                <option value="1">1 – Poor</option>
-              </select>
-
-              <label for="feedback-notes" style="margin-top: 0.5rem">
-                Short note (e.g. “Great Wi-Fi, food needs improvement”):
-              </label>
-              <textarea
-                id="feedback-notes"
-                placeholder="Type your notes here…"
-              ></textarea>
-
-              <button id="feedback-submit">Save feedback</button>
-              <div class="feedback-note">
-                Note: This is a <strong>front-end demo</strong>; data is stored
-                only in your browser memory to illustrate how the final web app
-                for your research could behave.
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
-
-      <!-- Placeholder extra views (SPA style) -->
-      <section id="view-search" class="view" style="display: none">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Search & Filter (Concept View)</div>
-              <div class="card-sub">
-                In a full implementation this view would integrate with a real
-                database / API of hostel & PG listings.
-              </div>
+          <div class="heatmap-preview">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:0.78rem;">Heatmap factors (sample view)</span>
+              <span style="font-size:0.7rem;color:var(--text-soft);">
+                Age × Factors · Gender × Factors · Occupation × Factors
+              </span>
             </div>
-            <span class="badge">Prototype</span>
-          </div>
-          <p style="font-size: 0.85rem; color: var(--text-soft);">
-            You can mention this single-page prototype in your report / viva as
-            an <strong>“Application / Implementation (Web/App)”</strong>. It
-            demonstrates how the final solution could help users filter
-            accommodations by rent, type, and location, and then rate the
-            options based on your research factors such as food, Wi-Fi, safety,
-            hygiene, and study environment.
-          </p>
-        </div>
-      </section>
-
-      <section id="view-feedback" class="view" style="display: none">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Feedback Capture & Analytics (Concept)</div>
-              <div class="card-sub">
-                In a full system, all feedback entries would be aggregated,
-                analysed and visualised in heatmaps / dashboards.
-              </div>
+            <div class="heatmap-grid">
+              <div class="heatmap-chip hot">Food</div>
+              <div class="heatmap-chip hot">Wi-Fi</div>
+              <div class="heatmap-chip hot">Safety</div>
+              <div class="heatmap-chip hot">Hygiene</div>
+              <div class="heatmap-chip">Rent</div>
+              <div class="heatmap-chip">Study space</div>
+              <div class="heatmap-chip">Gym</div>
+              <div class="heatmap-chip">Visitors</div>
+              <div class="heatmap-chip">Location</div>
+              <div class="heatmap-chip hot">RO / Water</div>
+              <div class="heatmap-chip">Laundry</div>
+              <div class="heatmap-chip">Power backup</div>
             </div>
-            <span class="badge">Research-oriented</span>
+            <p style="font-size:0.74rem;color:var(--text-soft);margin-top:0.4rem;">
+              In your documentation, you can embed real heatmaps generated from
+              Excel / Python, and reference this web prototype as a conceptual
+              extension of your analytical work.
+            </p>
           </div>
-          <p style="font-size: 0.85rem; color: var(--text-soft); margin-bottom:0.6rem;">
-            For your current prototype, basic feedback is stored in memory and
-            used to update <em>“Feedback entries (this session)”</em>. In an
-            extended version you could:
-          </p>
-          <ul style="font-size:0.8rem; color:var(--text-soft); padding-left:1rem; list-style:disc;">
-            <li>Export anonymised feedback to Excel / CSV for further analysis.</li>
-            <li>Feed data into your heatmaps (Age, Gender, Occupation).</li>
-            <li>Compare satisfaction patterns between hostels vs PGs.</li>
-            <li>Generate automated recommendations for owners.</li>
-          </ul>
         </div>
       </section>
     </main>
+
+    <footer>
+      <div>
+        StayX · Smart Hostel & PG Needs Assessment Prototype · Built for
+        academic presentation & GitHub Pages.
+      </div>
+      <div class="links">
+        <a href="#hero">Top</a>
+        <a href="#demo">Demo</a>
+        <a href="#research">Research</a>
+      </div>
+    </footer>
   </div>
 
-  <div class="toast" id="toast">Feedback saved for this accommodation.</div>
+  <div class="toast" id="toast">Feedback saved for this session (demo only).</div>
 
   <script>
-    // --- Demo data representing hostels / PGs based on your research factors ---
+    // --- Smooth nav scroll and active state ---
+    document.querySelectorAll(".nav-link").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.target;
+        const section = document.getElementById(target);
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    });
+
+    document.querySelectorAll("[data-scroll]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.scroll;
+        const section = document.getElementById(target);
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    });
+
+    const sections = ["hero", "features", "demo", "research"];
+    const navButtons = document.querySelectorAll(".nav-link");
+
+    function setActiveNav() {
+      const scrollPos = window.scrollY;
+      let current = "hero";
+      sections.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop - 120 <= scrollPos) {
+          current = id;
+        }
+      });
+      navButtons.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.target === current);
+      });
+    }
+
+    window.addEventListener("scroll", setActiveNav);
+
+    // --- Demo app data ---
     const PROPERTIES = [
       {
         id: 1,
@@ -722,14 +1456,18 @@
         type: "PG",
         location: "Near College",
         rent: 7500,
-        food: "Veg / Non-veg, 3 meals",
+        food: "Veg & non-veg, 3 meals",
         wifi: "100 Mbps",
         safety: "CCTV, warden, gated",
-        hygiene: "Daily cleaning",
+        hygiene: "Daily cleaning, sanitised",
         studySpace: "Dedicated study hall",
         visitors: "Restricted after 9 pm",
         score: 4.4,
-        tags: ["Popular with students", "High Wi-Fi rating", "Good safety index"],
+        tags: [
+          "Popular with students",
+          "High Wi-Fi rating",
+          "Balanced rent vs facilities",
+        ],
       },
       {
         id: 2,
@@ -739,12 +1477,12 @@
         rent: 6000,
         food: "Veg mess, fixed menu",
         wifi: "50 Mbps",
-        safety: "Guard + CCTV",
-        hygiene: "Alternate day cleaning",
+        safety: "Security guard & CCTV",
+        hygiene: "Alternate-day cleaning",
         studySpace: "Library style floor",
         visitors: "Common area only",
         score: 3.9,
-        tags: ["Budget option", "Central location"],
+        tags: ["Budget-friendly", "Central location"],
       },
       {
         id: 3,
@@ -754,12 +1492,12 @@
         rent: 11000,
         food: "On-demand kitchen + tiffin tie-ups",
         wifi: "200 Mbps",
-        safety: "Access card entry",
+        safety: "Access card + CCTV",
         hygiene: "Professional housekeeping",
-        studySpace: "Work pods + lounge",
-        visitors: "Flexible, with registration",
-        score: 4.7,
-        tags: ["Ideal for working professionals", "Best Wi-Fi", "Premium"],
+        studySpace: "Work pods & lounge",
+        visitors: "Flexible, registration required",
+        score: 4.8,
+        tags: ["Ideal for professionals", "Premium Wi-Fi", "High privacy"],
       },
       {
         id: 4,
@@ -767,102 +1505,77 @@
         type: "Hostel",
         location: "Near College",
         rent: 6800,
-        food: "Mess (home style)",
+        food: "Home-style mess",
         wifi: "80 Mbps",
-        safety: "Warden, CCTV on floors",
+        safety: "Warden + floor CCTV",
         hygiene: "Daily bathroom cleaning",
-        studySpace: "Quiet study wing",
+        studySpace: "Silent study wing",
         visitors: "Parents / guardians only",
         score: 4.2,
-        tags: ["Study focused", "Preferred by exam aspirants"],
+        tags: ["Exam-friendly", "Study-oriented"],
       },
     ];
 
     const state = {
-      activeView: "dashboard",
       selectedId: null,
       feedbackCount: 0,
     };
 
     const el = (id) => document.getElementById(id);
 
-    // --- Navigation between views ---
-    document.querySelectorAll(".nav-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const view = btn.dataset.view;
-        state.activeView = view;
-
-        document
-          .querySelectorAll(".nav-btn")
-          .forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-
-        document.querySelectorAll(".view").forEach((section) => {
-          section.style.display =
-            section.id === `view-${view}` ? "grid" : "none";
-          if (view !== "dashboard") {
-            section.style.display = "block";
-          }
-        });
-      });
-    });
-
-    // --- Render property cards ---
     function renderProperties() {
       const type = el("filter-type").value;
-      const maxBudget = parseInt(el("filter-budget").value, 10);
+      const maxBudgetRaw = el("filter-budget").value;
+      const maxBudget = parseInt(maxBudgetRaw, 10);
       const location = el("filter-location").value;
-
-      const container = el("property-list");
-      container.innerHTML = "";
 
       let filtered = PROPERTIES.filter((p) => {
         if (type !== "all" && p.type !== type) return false;
-        if (!isNaN(maxBudget) && p.rent > maxBudget) return false;
+        if (!Number.isNaN(maxBudget) && maxBudgetRaw && p.rent > maxBudget)
+          return false;
         if (location !== "all" && p.location !== location) return false;
         return true;
       });
 
+      const list = el("property-list");
+      list.innerHTML = "";
       if (!filtered.length) {
-        container.innerHTML =
-          '<div style="font-size:0.8rem; color:#9ca3af;">No accommodations match the current filters.</div>';
+        list.innerHTML =
+          '<div style="font-size:0.78rem;color:#9ca3af;">No accommodations match the current filters.</div>';
+      } else {
+        filtered.forEach((prop) => {
+          const card = document.createElement("div");
+          card.className = "prop-card";
+          card.dataset.id = prop.id;
+          card.innerHTML = `
+            <div class="prop-header">
+              <div class="prop-name">${prop.name}</div>
+              <div class="prop-type">${prop.type}</div>
+            </div>
+            <div class="prop-meta">
+              <span>📍 ${prop.location}</span>
+              <span>💰 ₹${prop.rent}/month</span>
+            </div>
+            <div class="prop-meta">
+              <span>🍽 ${prop.food}</span>
+            </div>
+            <div class="prop-tags">
+              ${prop.tags
+                .map(
+                  (t, i) =>
+                    `<span class="chip ${i === 0 ? "hot" : ""}">${t}</span>`
+                )
+                .join("")}
+            </div>
+          `;
+          card.addEventListener("click", () => selectProperty(prop.id));
+          list.appendChild(card);
+        });
       }
-
-      filtered.forEach((prop) => {
-        const card = document.createElement("div");
-        card.className = "prop-card";
-        card.dataset.id = prop.id;
-
-        card.innerHTML = `
-          <div class="prop-header">
-            <div class="prop-name">${prop.name}</div>
-            <div class="prop-type">${prop.type}</div>
-          </div>
-          <div class="prop-meta">
-            <span>📍 ${prop.location}</span>
-            <span>💰 ₹${prop.rent}/month</span>
-          </div>
-          <div class="prop-meta">
-            <span>🍽 ${prop.food}</span>
-          </div>
-          <div class="tag-row">
-            ${prop.tags
-              .map(
-                (t, i) =>
-                  `<span class="chip ${i === 0 ? "hot" : ""}">${t}</span>`
-              )
-              .join("")}
-          </div>
-        `;
-
-        card.addEventListener("click", () => selectProperty(prop.id));
-        container.appendChild(card);
-      });
 
       el("summary-count").textContent = `${filtered.length} option(s) shown`;
     }
 
-    // --- Select property + update detail panel ---
     function selectProperty(id) {
       const prop = PROPERTIES.find((p) => p.id === id);
       if (!prop) return;
@@ -870,16 +1583,16 @@
 
       el("detail-title").textContent = prop.name;
       el("detail-sub").textContent = `${prop.type} · ${prop.location} · ₹${prop.rent}/month`;
-      el("detail-tag").textContent = "Sample research profile";
+      el("detail-tag").textContent = "Research profile sample";
 
       el("detail-body").innerHTML = `
-        <p>Below is a demo view connecting your <strong>research factors</strong> with one accommodation option:</p>
+        <p>Below is how <strong>${prop.name}</strong> performs on your key research factors:</p>
         <ul class="detail-list">
           <li><span class="label">Food service:</span> <span class="value">${prop.food}</span></li>
-          <li><span class="label">Wi-Fi:</span> <span class="value">${prop.wifi}</span></li>
-          <li><span class="label">Safety:</span> <span class="value">${prop.safety}</span></li>
-          <li><span class="label">Hygiene:</span> <span class="value">${prop.hygiene}</span></li>
-          <li><span class="label">Study / work space:</span> <span class="value">${prop.studySpace}</span></li>
+          <li><span class="label">Wi-Fi quality:</span> <span class="value">${prop.wifi}</span></li>
+          <li><span class="label">Safety level:</span> <span class="value">${prop.safety}</span></li>
+          <li><span class="label">Hygiene & maintenance:</span> <span class="value">${prop.hygiene}</span></li>
+          <li><span class="label">Study / work environment:</span> <span class="value">${prop.studySpace}</span></li>
           <li><span class="label">Visitor policy:</span> <span class="value">${prop.visitors}</span></li>
         </ul>
 
@@ -889,41 +1602,40 @@
             <div class="metric-value" id="metric-score">${prop.score.toFixed(
               1
             )}</div>
-            <div class="metric-pill">Weighted from research factors: food, Wi-Fi, hygiene, safety, rent.</div>
+            <div class="metric-note">Weighted from food, Wi-Fi, safety, hygiene & rent.</div>
           </div>
           <div class="metric">
             <div class="metric-label">Feedback entries (this session)</div>
             <div class="metric-value" id="metric-feedback-count">${
               state.feedbackCount
             }</div>
-            <div class="metric-pill">Client-side only, used to illustrate analytics idea.</div>
+            <div class="metric-note">Local only – used to illustrate analytics in your application chapter.</div>
           </div>
         </div>
 
-        <div class="feedback-form" style="margin-top:0.6rem;">
-          <label for="rating-overall">Quick feedback for <strong>${
-            prop.name
-          }</strong>:</label>
+        <div class="feedback-form">
+          <label for="rating-overall">Quick rating for this accommodation:</label>
           <select id="rating-overall">
             <option value="">Select rating</option>
-            <option value="5">5 – Excellent</option>
+            <option value="5">5 – Excellent fit</option>
             <option value="4">4 – Very good</option>
-            <option value="3">3 – Average</option>
-            <option value="2">2 – Below average</option>
-            <option value="1">1 – Poor</option>
+            <option value="3">3 – Acceptable</option>
+            <option value="2">2 – Needs improvement</option>
+            <option value="1">1 – Not suitable</option>
           </select>
 
-          <label for="feedback-notes" style="margin-top:0.5rem;">Short note (optional):</label>
-          <textarea id="feedback-notes" placeholder="E.g. Great Wi-Fi, food could improve…"></textarea>
+          <label for="feedback-notes" style="margin-top:0.4rem;">
+            Short note (e.g. “Great Wi-Fi, food needs improvement”):
+          </label>
+          <textarea id="feedback-notes"></textarea>
 
-          <button id="feedback-submit">Save feedback</button>
+          <button id="feedback-submit">Save feedback (demo)</button>
           <div class="feedback-note">
-            Feedback stays in this session only. In a real system it would be saved to a database and used to generate heatmaps like the ones in your research.
+            In a real deployment, this data would feed into dashboards & heatmaps similar to those used in your analysis.
           </div>
         </div>
       `;
 
-      // Re-bind feedback submit button for this panel
       const btn = document.getElementById("feedback-submit");
       if (btn) {
         btn.addEventListener("click", handleFeedbackSubmit);
@@ -931,14 +1643,13 @@
     }
 
     function handleFeedbackSubmit() {
-      const ratingEl = document.getElementById("rating-overall");
-      const notesEl = document.getElementById("feedback-notes");
-      const rating = ratingEl ? ratingEl.value : "";
       if (!state.selectedId) {
         showToast("Please select an accommodation first.");
         return;
       }
-      if (!rating) {
+      const ratingEl = document.getElementById("rating-overall");
+      const notesEl = document.getElementById("feedback-notes");
+      if (!ratingEl || !ratingEl.value) {
         showToast("Please choose a rating before saving.");
         return;
       }
@@ -946,21 +1657,19 @@
       const metricEl = document.getElementById("metric-feedback-count");
       if (metricEl) metricEl.textContent = state.feedbackCount;
 
-      // reset fields (demo)
       ratingEl.value = "";
       if (notesEl) notesEl.value = "";
-
-      showToast("Feedback saved for this accommodation (demo).");
+      showToast("Feedback saved for this session (demo only).");
     }
 
-    function showToast(msg) {
-      const t = el("toast");
-      t.textContent = msg;
-      t.classList.add("show");
-      setTimeout(() => t.classList.remove("show"), 2100);
+    function showToast(message) {
+      const toast = el("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2200);
     }
 
-    // Filter events
+    // Filter handlers
     el("filter-type").addEventListener("change", renderProperties);
     el("filter-budget").addEventListener("input", renderProperties);
     el("filter-location").addEventListener("change", renderProperties);
@@ -973,6 +1682,7 @@
 
     // Init
     renderProperties();
+    setActiveNav();
   </script>
 </body>
 </html>
